@@ -1,0 +1,8 @@
+.env/
+results/
+__pycache__/
+*.zip
+*.ini
+make_json.py
+config.py
+dataset/

@@ -25,7 +25,12 @@ class AlliumDataset(torch.utils.data.Dataset):
 		for image in original_data.keys():
 			boxes = []
 			labels = []
+			if len(original_data[image]["regions"]) == 0:
+				self.all_images.remove(original_data[image]["filename"])
+				print("Empty image. Skip.")
+				continue
 			for region in original_data[image]["regions"]:
+
 				box = utils.get_bbox(region["shape_attributes"]["all_points_x"],
 					region["shape_attributes"]["all_points_y"])
 				if len(box) < 4:
@@ -90,12 +95,12 @@ if __name__ == "__main__":
 		settings["train_images"], settings["width"], settings["height"],
 		settings, torchvision.transforms.ToTensor())
 	
-	for i in range(len(dataset)):
-		image, target = dataset[i]
-		for box in target["boxes"]:
-			if len(box) < 4:
-				print("ERROR: " + original_data[image]["filename"] + "маленький bbox! (4)")
-		print(f"Проверено {i+1} / {len(dataset)}", end="\r")
+	# for i in range(len(dataset)):
+	# 	image, target = dataset[i]
+	# 	for box in target["boxes"]:
+	# 		if len(box) < 4:
+	# 			print("ERROR: " + original_data[image]["filename"] + "маленький bbox! (4)")
+	# 	print(f"Проверено {i+1} / {len(dataset)}", end="\r")
 
-	image, target = dataset[120]
+	image, target = dataset[667]
 	utils.show_item(image, target, utils.COLORS)

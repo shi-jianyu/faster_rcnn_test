@@ -28,13 +28,21 @@ class AlliumDataset(torch.utils.data.Dataset):
 			for region in original_data[image]["regions"]:
 				box = utils.get_bbox(region["shape_attributes"]["all_points_x"],
 					region["shape_attributes"]["all_points_y"])
+				if len(box) < 4:
+					print("ERROR: " + original_data[image]["filename"] + " small bbox!")
 				label = list(region["region_attributes"].values())[0]
 				label = settings["classes"].index(label)
-
-				boxes.append(box)
-				labels.append(label)
+				if box in boxes:
+					print("DUBLICATE BOX in " + original_data[image]["filename"] + ". Don't attach")
+				else:
+					boxes.append(box)
+					labels.append(label)
+			boxes = torch.as_tensor(boxes, dtype=torch.float32)
+			for box in boxes:
+				if len(box) < 4:
+					print("ERROR: " + original_data[image]["filename"] + " small bbox! (1)")
 			self.all_targets[original_data[image]["filename"]] = {
-				"boxes": torch.as_tensor(boxes, dtype=torch.float32),
+				"boxes": boxes,
 				"labels": torch.as_tensor(labels, dtype=torch.int64),
 			    "iscrowd": torch.zeros((len(boxes),), dtype=torch.int64)}
 		print("Dataset is created!")
@@ -51,17 +59,24 @@ class AlliumDataset(torch.utils.data.Dataset):
 			resample=Image.BILINEAR)
 
 		target = self.all_targets[image_name].copy()
+		new_boxes = []
 		areas = []
 		for box in target["boxes"]:
-			box[0] = box[0]/image_width*self.width
-			box[1] = box[1]/image_height*self.height
-			box[2] = box[2]/image_width*self.width
-			box[3] = box[3]/image_height*self.height
-			area = (box[2]-box[0]) * (box[3]-box[1])
+			new_box = []
+			new_box.append(box[0]/image_width*self.width)
+			new_box.append(box[1]/image_height*self.height)
+			new_box.append(box[2]/image_width*self.width)
+			new_box.append(box[3]/image_height*self.height)
+			area = (new_box[2]-new_box[0]) * (new_box[3]-new_box[1])
+			if len(new_box) < 4:
+				print("ERROR: " + image_name + " small bbox! (2)")
+			new_boxes.append(new_box)
 			areas.append(area)
 		image_id = torch.tensor([index], dtype=torch.int64)
 		target["image_id"] = image_id
 		target["area"] = torch.as_tensor(areas, dtype=torch.float32)
+		target["boxes"] = torch.as_tensor(new_boxes, dtype=torch.float32)
+
 
 		if self.transform:
 			image = self.transform(image)
@@ -70,9 +85,17 @@ class AlliumDataset(torch.utils.data.Dataset):
 
 
 if __name__ == "__main__":
-	settings = utils.parse_ini("settings.ini")
+	settings = utils.parse_json("settings.json")
 	dataset = AlliumDataset(settings["train_annotations"], 
 		settings["train_images"], settings["width"], settings["height"],
 		settings, torchvision.transforms.ToTensor())
+	
+	for i in range(len(dataset)):
+		image, target = dataset[i]
+		for box in target["boxes"]:
+			if len(box) < 4:
+				print("ERROR: " + original_data[image]["filename"] + "маленький bbox! (4)")
+		print(f"Проверено {i+1} / {len(dataset)}", end="\r")
+
 	image, target = dataset[120]
 	utils.show_item(image, target, utils.COLORS)

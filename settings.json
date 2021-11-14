@@ -1,6 +1,6 @@
 {
-    "width": 100,
-    "height": 100,
+    "width": 1024,
+    "height": 1024,
     "batch_size": 1,
     "num_epochs": 1,
     "classes": [
@@ -8,11 +8,11 @@
         "dividing",
         "not_dividing"
     ],
-    "train_annotations": "dataset/train_dataset.json",
-    "train_images": "dataset/train_images",
-    "val_annotations": "dataset/val_dataset.json",
-    "val_images": "dataset/val_images",
-    "output_folder": "output",
+    "train_annotations": "C:/Users/skype/Desktop/splitted_all_via/train_dataset.json",
+    "train_images": "C:/Users/skype/Desktop/splitted_all_via/train_images",
+    "val_annotations": "C:/Users/skype/Desktop/splitted_all_via/val_dataset.json",
+    "val_images": "C:/Users/skype/Desktop/splitted_all_via/val_images",
+    "output_folder": "results",
     "model_name": "model",
     "save_model_epochs": 5,
     "save_plot_epochs": 5

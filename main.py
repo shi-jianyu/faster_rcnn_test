@@ -97,6 +97,10 @@ val_dataloader = torch.torch.utils.data.DataLoader(val_dataset,
 # initialize the model and move to the computation device
 model = utils.create_model(settings["num_classes"])
 model = model.to(device)
+if settings["weights"] is not None:
+	model.load_state_dict(torch.load(
+	settings["weights"], map_location=device))
+	print("Loaded weights from " + settings["weights"])
 # get the model parameters
 params = [p for p in model.parameters() if p.requires_grad]
 # define the optimizer

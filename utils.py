@@ -87,6 +87,11 @@ def get_bbox(all_points_x: list, all_points_y: list):
 	return [x_min, y_min, x_max, y_max]
 
 
+def parse_bbox(x: int, y: int, width: int, height: int):
+	""" """
+	return [x, y, x+width, y+height]
+
+
 def collate_fn(batch):
 	""" """
 	return tuple(zip(*batch))

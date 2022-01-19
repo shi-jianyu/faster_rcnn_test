@@ -103,9 +103,14 @@ if settings["weights"] is not None:
 	print("Loaded weights from " + settings["weights"])
 # get the model parameters
 params = [p for p in model.parameters() if p.requires_grad]
+
 # define the optimizer
-optimizer = torch.optim.SGD(params, lr=0.001, momentum=0.9,
-		weight_decay=0.0005)
+if settings["optimizer"] == "SGD":
+	optimizer = torch.optim.SGD(params, lr=0.001, momentum=0.9,
+			weight_decay=0.0001)
+else:
+	optimizer = torch.optim.Adam(params, lr=0.001)
+
 
 #initialize the Averager class
 train_loss_hist = utils.Averager()

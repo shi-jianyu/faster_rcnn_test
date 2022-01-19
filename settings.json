@@ -15,5 +15,6 @@
     "output_folder": "results",
     "model_name": "model",
     "save_model_epochs": 5,
-    "save_plot_epochs": 5
+    "save_plot_epochs": 5,
+    "optimizer": "SGD"
 }

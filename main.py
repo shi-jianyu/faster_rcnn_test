@@ -106,10 +106,10 @@ params = [p for p in model.parameters() if p.requires_grad]
 
 # define the optimizer
 if settings["optimizer"] == "SGD":
-	optimizer = torch.optim.SGD(params, lr=0.001, momentum=0.9,
-			weight_decay=0.0001)
+	optimizer = torch.optim.SGD(params, lr=0.01, momentum=0.9,
+			weight_decay=0.005)
 else:
-	optimizer = torch.optim.Adam(params, lr=0.001)
+	optimizer = torch.optim.Adam(params, lr=0.001, weight_decay=0.005)
 
 
 #initialize the Averager class

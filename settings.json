@@ -1,20 +1,28 @@
 {
     "width": 1024,
     "height": 1024,
+    
     "batch_size": 1,
-    "num_epochs": 1,
+    "num_epochs": 20,
+    
     "classes": [
         "background",
         "dividing",
         "not_dividing"
     ],
-    "train_annotations": "C:/Users/skype/Desktop/splitted_all_via/train_dataset.json",
-    "train_images": "C:/Users/skype/Desktop/splitted_all_via/train_images",
-    "val_annotations": "C:/Users/skype/Desktop/splitted_all_via/val_dataset.json",
-    "val_images": "C:/Users/skype/Desktop/splitted_all_via/val_images",
+    
+    "train_annotations": "C:/_my_files/DESKTOP/all_via_eqv/train_dataset.json",
+    "train_images": "C:/_my_files/DESKTOP/all_via_eqv/train_images",
+    
+    "val_annotations": "C:/_my_files/DESKTOP/all_via_eqv/val_dataset.json",
+    "val_images": "C:/_my_files/DESKTOP/all_via_eqv/val_images",
+    
+    "weights": null,
+
     "output_folder": "results",
+    
     "model_name": "model",
-    "save_model_epochs": 5,
-    "save_plot_epochs": 5,
-    "optimizer": "SGD"
+    
+    "save_model_epochs": 2,
+    "save_plot_epochs": 2
 }

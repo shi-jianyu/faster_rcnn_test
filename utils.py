@@ -154,8 +154,8 @@ def create_model(num_classes: int) -> detection.faster_rcnn.FasterRCNN:
     backbone = detection.backbone_utils.resnet_fpn_backbone('resnet101',
                                                             pretrained=True)
     
-    anchor_sizes = ((128,), (256,), (512,), (1024,), (2048,), ) 
-    aspect_ratios = ((1.0, 1.25, 1.5, 1.75, 2.0, 2.5),) * len(anchor_sizes) 
+    anchor_sizes = ((64,), (128,), (256,), (512,), (1024,)) 
+    aspect_ratios = ((0.75, 1.0, 1.25, 1.5, 1.75, 2.0),) * len(anchor_sizes) 
     
     anchor_generator = detection.rpn.AnchorGenerator(
                                    sizes=anchor_sizes,
